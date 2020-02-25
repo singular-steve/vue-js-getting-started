@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>computed property 2</title>
+  <script src="https://unpkg.com/vue"></script>
+  <style>
+    #list {
+      width: 400px;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    #list td, #list th {
+      border: 1px solid black;
+      text-align: center;
+    }
+    #list > thead > tr {
+      color: yellow;
+      background-color: purple;
+    }
+  </style>
+</head>
+<body>
+<div id="example">
+  <p>
+    국가명 : <input type="text" v-model="countryname" placeholder="국가명"/>
+  </p>
+  <table id="list">
+    <thead>
+    <tr v-for="c in filtered">
+      <th>{{c.no}}</th>
+      <th>{{c.name}}</th>
+      <th>{{c.capital}}</th>
+      <th>{{c.region}}</th>
+    </tr>
+    </thead>
+    <tbody id="contacts">
+
+    </tbody>
+  </table>
+</div>
+<script type="text/javascript">
+  let model = {
+    countryname: '',
+    countries: [
+      {no: 1, name: 'America', capital: 'Washington', region: 'america'},
+      {no: 2, name: 'France', capital: 'Paris', region: 'europe'},
+      {no: 3, name: 'England', capital: 'London', region: 'europe'},
+      {no: 4, name: 'China', capital: 'Beijing', region: 'asia'},
+      {no: 5, name: 'Thailand', capital: 'Bangkok', region: 'asia'},
+      {no: 6, name: 'Moroco', capital: '832423', region: 'africa'},
+      {no: 7, name: 'Laos', capital: '324435', region: 'africa'},
+      {no: 8, name: 'Vietnam', capital: '45454', region: 'africa'},
+      {no: 9, name: 'Fiji', capital: '4545', region: 'africa'},
+      {no: 10, name: 'Solomon', capital: '9329383', region: 'africa'},
+      {no: 11, name: 'Jamaica', capital: '237733', region: 'africa'},
+      {no: 12, name: 'hehe', capital: '2826353', region: 'africa'},
+      {no: 13, name: 'hoho', capital: '3838383', region: 'africa'},
+      {no: 14, name: 'keke', capital: '171511', region: 'africa'},
+      {no: 15, name: 'kuku', capital: '2783883', region: 'africa'},
+      {no: 16, name: 'yaya', capital: '3838833', region: 'africa'}
+    ]
+  }
+  let vm = new Vue({
+    el: '#example',
+    data: model,
+    computed: {
+      filtered: function() {
+        let cname = this.countryname.trim()
+        return this.countries.filter((item, index) => {
+          if(item.name.indexOf(cname) > -1) {
+            return true
+          }
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>
