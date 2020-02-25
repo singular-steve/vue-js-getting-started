@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>v-for</title>
+  <script src="https://unpkg.com/vue"></script>
+  <style>
+    #list {
+      width: 400px;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+
+    #list td, #list th {
+      border: 1px solid black;
+      text-align: center;
+    }
+
+    #list > thead > tr {
+      color: yellow;
+      background-color: purple;
+    }
+  </style>
+</head>
+<body>
+<div id="example">
+  <table id="list">
+    <thead>
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+      <th>Contact</th>
+      <th>Address</th>
+    </tr>
+    </thead>
+    <tbody id="contacts">
+    <tr v-for="(contact, index) in contacts">
+      <td>{{contact.no}}</td>
+      <td>{{contact.name}}</td>
+      <td>{{contact.tel}}</td>
+      <td>{{contact.address}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <select id="regions">
+    <option disabled="disabled" selected>Select regions</option>
+    <option v-for="(val, key) in regions" v-bind:value="key">{{val}}</option>
+  </select>
+</div>
+<script type="text/javascript">
+  let model = {
+    'pageno': 1,
+    'pagesize': 10,
+    'totalcount': 100,
+    'contacts': [
+      {'no': 100, 'name': 'name100', 'tel': '010-1111-2222', 'address': 'seoul'},
+      {'no': 99, 'name': 'name99', 'tel': '010-1111-2222', 'address': 'seoul1'},
+      {'no': 98, 'name': 'name98', 'tel': '010-1111-2222', 'address': 'seoul2'},
+      {'no': 97, 'name': 'name97', 'tel': '010-1111-2222', 'address': 'seoul3'},
+      {'no': 96, 'name': 'name96', 'tel': '010-1111-2222', 'address': 'seoul4'},
+      {'no': 95, 'name': 'name95', 'tel': '010-1111-2222', 'address': 'seoul5'},
+      {'no': 94, 'name': 'name94', 'tel': '010-1111-2222', 'address': 'seoul6'},
+      {'no': 93, 'name': 'name93', 'tel': '010-1111-2222', 'address': 'seoul7'},
+      {'no': 92, 'name': 'name92', 'tel': '010-1111-2222', 'address': 'seoul8'}
+    ],
+    'regions': {
+      'A': 'Asia',
+      'B': 'America',
+      'C': 'Europe',
+      'D': 'Africa',
+      'E': 'Oceania'
+    }
+  }
+  let list = new Vue({
+    el: '#example',
+    data: model
+  })
+</script>
+</body>
+</html>
