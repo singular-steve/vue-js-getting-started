@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>vue instance watch</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://underscorejs.org/underscore-min.js"></script>
+  <style>
+    #list {
+      width: 400px;
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    #list td, #list th {
+      border: 1px solid black;
+      text-align: center;
+    }
+    #list > thead > tr {
+      color: yellow;
+      background-color: purple;
+    }
+  </style>
+</head>
+<body>
+<div id="example">
+  <p>
+    name : <input type="text" v-model="name" placeholder="input 2 more characters"/>
+  </p>
+  <table id="list">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Tel</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody id="contacts">
+      <tr v-for="contact in contactlist">
+        <td>{{contact.no}}</td>
+        <td>{{contact.name}}</td>
+        <td>{{contact.tel}}</td>
+        <td>{{contact.address}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div v-show="isProcessing">...ing</div>
+</div>
+<script type="text/javascript">
+let vm = new Vue({
+  el: '#example',
+  data: {
+    name: '',
+    isProcessing: false,
+    contactlist: []
+  },
+  watch: {
+    name: function(val) {
+      if (val.length >= 2) {
+        this.fetchContacts()
+      } else {
+        this.contactlist = []
+      }
+    }
+  },
+  methods: {
+    fetchContacts: _.debounce(function() {
+      this.contactlist = []
+      this.isProcessing = true
+      let url = 'http://localhost:3000/contacts_long/search/' + this.name
+      fetch(url)
+      .then(response => {
+        return response.json()
+      }).then(json => {
+        vm.contactlist = json
+        vm.isProcessing = false
+      }).catch(ex => {
+        console.log('parsing fail', ex)
+        vm.contactlist = []
+        vm.isProcessing = false
+      })
+    }, 300)
+  }
+})
+</script>
+</body>
+</html>

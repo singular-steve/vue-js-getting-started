@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>vue instance options</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="test">
+  {{name}}
+</div>
+<script type="text/javascript">
+  let model = {
+    name: 'Steve'
+  }
+  let vm = new Vue({
+    el: '#test',
+    data: model,
+  })
+</script>
+</body>
+</html>

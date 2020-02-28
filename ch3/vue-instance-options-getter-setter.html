@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>vue instance -  options - getter and setter</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+<div id="example2">
+  amount: <span>{{amount}}</span>
+</div>
+<script type="text/javascript">
+  let vm = new Vue({
+    el: '#example2',
+    data: {
+      amt: 1234567
+    },
+    computed: {
+      amount: {
+        get: function() {
+          let s = String("" + this.amt)
+          let result = ''
+          let num = 0
+          for(let i = s.length - 1; i >= 0; i--) {
+            result = s[i] + result
+            if (num % 3 === 2 && i !== 0) {
+              result = ',' + result
+            }
+            num++
+          }
+          return result
+        },
+        set: function () {
+          if(typeof(amt) === 'string') {
+            let result = parseInt(amt.replace(/,/g, ''))
+            if (isNaN(result)) this.amt = 0
+            else this.amt = result
+          } else if(typeof(amt) === 'number')
+            this.amt = amt
+        }
+      }
+    }
+  })
+</script>
+</body>
+</html>
