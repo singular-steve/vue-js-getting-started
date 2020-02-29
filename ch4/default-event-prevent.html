@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>default event prevent</title>
+  <script src="https://unpkg.com/vue"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    #example {
+      height: 98vh;
+      min-height: 100%;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+<div id="example" v-on:contextmenu="ctxStop">
+  <a href="https://www.naver.com" @click="confirmNaver">Naver</a>
+</div>
+<div id="example2" v-on:contextmenu.prevent="ctxStop">
+  <a href="https://www.naver.com" @click="confirmNaver">Naver</a>
+</div>
+<script type="text/javascript">
+let vm = new Vue({
+  el: '#example',
+  methods: {
+    ctxStop: function(e) {
+      e.preventDefault()
+    },
+    confirmNaver: function(e) {
+      if (!confirm('네이버로 이동?')) {
+        e.preventDefault()
+      }
+    }
+  }
+})
+</script>
+</body>
+</html>
