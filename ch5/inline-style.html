@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <title>inline style</title>
+  <script src="https://unpkg.com/vue"></script>
+  <style>
+
+  </style>
+</head>
+<body>
+<div id="example">
+  <button id="a" v-bind:style="style1" @mouseover.stop="overEvent" @mouseout.stop="outEvent">테스트</button>
+  <button id="btn1" v-bind:style="[myColor, myLayout]">Button1</button>
+</div>
+
+<script type="text/javascript">
+let vm = new Vue({
+  el: '#example',
+  data: {
+    style1: {
+      backgroundColor: 'aqua',
+      border: 'solid 1px gray',
+      width: '100px',
+      textAlign: 'center'
+    },
+    myColor: {
+      backgroundColor: 'purple',
+      color: 'yellow'
+    },
+    myLayout: {
+      width: '150px',
+      height: '80px',
+      textAlign: 'center'
+    }
+  },
+  methods: {
+    overEvent: function(e) {
+      console.log('### overEvent ###')
+      this.style1.backgroundColor = 'purple'
+      this.style1.color = 'yellow'
+    },
+    outEvent: function(e) {
+      console.log('### outEvent ###')
+      this.style1.backgroundColor = 'aqua'
+      this.style1.color = 'black'
+    }
+  }
+})
+</script>
+</body>
+</html>
