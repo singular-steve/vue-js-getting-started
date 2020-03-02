@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <title>vue component data option</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<template id="timeTemplate">
+  <div>
+    <span>{{now}}</span>
+    <button v-on:click="timeClick">Current Time</button>
+  </div>
+</template>
+<script type="text/javascript">
+  Vue.component('time-component', {
+    template: '#timeTemplate',
+    data: function() {
+      return {
+        now: 0
+      }
+    },
+    methods: {
+      timeClick: function(e) {
+        this.now = (new Date()).getTime()
+      }
+    }
+  })
+</script>
+<body>
+  <div id="app">
+    <time-component></time-component>
+    <time-component></time-component>
+  </div>
+</body>
+<script type="text/javascript">
+  Vue.config.devtools = true
+  let v = new Vue({
+    el: '#app'
+  })
+</script>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <title>vue component - props example</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<style>
+  #list {
+    width: 400px;
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  #list td, #list th {
+    border: 1px solid black;
+    text-align: center;
+  }
+  #list > thead > tr {
+    color: yellow;
+    background-color: purple;
+  }
+</style>
+<template id="listTemplate">
+  <div>
+    <table id="list">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th>Tel</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody id="contacts">
+        <tr v-for="contact in contacts">
+          <td>{{contact.no}}</td>
+          <td>{{contact.name}}</td>
+          <td>{{contact.tel}}</td>
+          <td>{{contact.address}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+<script type="text/javascript">
+Vue.component('contactlist-component', {
+  template: '#listTemplate',
+  props: ['contacts']
+})
+</script>
+<body>
+<div id="app">
+  <h1>1st</h1>
+  <contactlist-component v-bind:contacts="list1"></contactlist-component>
+  <h1>2nd</h1>
+  <contactlist-component v-bind:contacts="list2"></contactlist-component>
+</div>
+</body>
+<script type="text/javascript">
+  Vue.config.devtools = true
+  let vm = new Vue({
+    el: '#app',
+    data: {
+      list1: [
+        {'no': 100, 'name': 'name100', 'tel': '010-1111-2222', 'address': 'seoul'},
+        {'no': 99, 'name': 'name99', 'tel': '010-1111-2222', 'address': 'seoul1'},
+        {'no': 98, 'name': 'name98', 'tel': '010-1111-2222', 'address': 'seoul2'},
+        {'no': 97, 'name': 'name97', 'tel': '010-1111-2222', 'address': 'seoul3'},
+        {'no': 96, 'name': 'name96', 'tel': '010-1111-2222', 'address': 'seoul4'}
+      ],
+      list2: [
+        {'no': 95, 'name': 'name95', 'tel': '010-1111-2222', 'address': 'seoul5'},
+        {'no': 94, 'name': 'name94', 'tel': '010-1111-2222', 'address': 'seoul6'},
+        {'no': 93, 'name': 'name93', 'tel': '010-1111-2222', 'address': 'seoul7'},
+        {'no': 92, 'name': 'name92', 'tel': '010-1111-2222', 'address': 'seoul8'}
+      ]
+    }
+  })
+</script>
+</html>

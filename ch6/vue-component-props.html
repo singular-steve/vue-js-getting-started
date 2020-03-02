@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <title>vue component - props</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<template id="listTemplate">
+  <li>{{ message }}</li>
+</template>
+<script type="text/javascript">
+  Vue.component('list-component', {
+    template: '#listTemplate',
+    props: {
+      message: {
+        type: String,
+        default: 'Hello!',
+      },
+      count: {
+        type: Number,
+        required: true,
+      },
+      countries: {
+        type: Array,
+        default: function() {
+          return ['Korea']
+        }
+      }
+    },
+  })
+</script>
+<body>
+<div id="app">
+  <ul>
+    <list-component message="Hello" v-bind:count="100" v-bind:countires="['America', 'UK', 'Aus']"></list-component>
+    <list-component message="Hi" v-bind:countries="'Vet'"></list-component>
+    <list-component message="Good Morning"></list-component>
+    <list-component count=1000></list-component>
+  </ul>
+</div>
+</body>
+<script type="text/javascript">
+  Vue.config.devtools = true
+  let vm = new Vue({
+    el: '#app',
+  })
+</script>
+</html>
