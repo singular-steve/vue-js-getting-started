@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <title>vue event props example</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://underscorejs.org/underscore-min.js"></script>
+</head>
+<style>
+  #list {
+    width: 400px;
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  #list td, #list th {
+    border: 1px solid black;
+    text-align: center;
+  }
+  #list > thead > tr {
+    color: yellow;
+    background-color: purple;
+  }
+</style>
+<template id="listTemplate">
+  <div>
+    <table id="list">
+      <thead>
+      <tr>
+        <th>No</th>
+        <th>Name</th>
+        <th>Tel</th>
+        <th>Address</th>
+      </tr>
+      </thead>
+      <tbody id="contacts">
+      <tr v-for="contact in contacts">
+        <td>{{contact.no}}</td>
+        <td>{{contact.name}}</td>
+        <td>{{contact.tel}}</td>
+        <td>{{contact.address}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+<script type="text/javascript">
+  Vue.component('contactlist-component', {
+    template: '#listTemplate',
+    props: ['contacts']
+  })
+</script>
+
+<template id="searchTemplate">
+  <p>
+    Name : <input type="text" v-model.trim="name" v-bind:placeholder="placeholder" v-on:keyup.enter="keyupEvent"/>
+  </p>
+</template>
+<script type="text/javascript">
+  Vue.component('search-component', {
+    template: '#searchTemplate',
+    props: ['placeholder'],
+    data: function() {
+      return {
+        name: ''
+      }
+    },
+    methods: {
+      keyupEvent: function(e) {
+        let value = e.target.value
+        if(value.length >= 2) {
+          this.$emit('search', value)
+        } else {
+          this.$emit('search', '')
+        }
+      }
+    }
+  })
+</script>
+
+<template id="searchcontactTemplate">
+  <div>
+    <search-component placeholder="두글자 이상 입력" v-on:search="searchEvent"></search-component>
+    <contactlist-component v-bind:contacts="contactlist"></contactlist-component>
+    <div v-show="isProcessing === true">...ing</div>
+  </div>
+</template>
+<script type="text/javascript">
+  Vue.component('search-contact-component', {
+    template: '#searchcontactTemplate',
+    data: function() {
+      return {
+        contactlist: [],
+        isProcessing: false
+      }
+    },
+    methods: {
+      searchEvent: function(name) {
+        if(name === '') {
+          this.contactlist = []
+        } else {
+          this.fetchContacts(name)
+        }
+      },
+      fetchContacts: _.debounce(function(name) {
+        this.contactlist = []
+        this.isProcessing = true
+        let url = 'http://localhost:3000/contacts_long/search/' + name
+        let vm = this
+        fetch(url).then(response => {
+          return response.json()
+        }).then(json => {
+          vm.contactlist = json
+          vm.isProcessing = false
+        }).catch(err => {
+          console.log('parsing failed', err)
+          vm.contactlist = []
+          vm.isProcessing = false
+        })
+      }, 300)
+    }
+  })
+</script>
+<body>
+<div id="app">
+  <search-contact-component></search-contact-component>
+</div>
+</body>
+<script type="text/javascript">
+  Vue.config.devtools = true
+  let vm = new Vue({
+    el: '#app',
+  })
+</script>
+
+</html>
