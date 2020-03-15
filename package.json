@@ -1,0 +1,23 @@
+{
+  "name": "quick-start-vue",
+  "version": "1.0.0",
+  "description": "> 목차",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/singular-steve/quick-start-vue-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/singular-steve/quick-start-vue-js/issues"
+  },
+  "homepage": "https://github.com/singular-steve/quick-start-vue-js#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
