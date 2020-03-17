@@ -4,3 +4,4 @@ node_modules
 build
 public/dist/
 todolistapp/node_modules
+styletest/node_modules
