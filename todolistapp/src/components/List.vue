@@ -1,7 +1,7 @@
 <template>
   <ul id="todolist">
     <li v-for="(a, index) in todolist" v-bind:class="checked(a.done)" v-on:click="doneToggle(index)">
-      <span>{{a.done}}</span>
+      <span>{{a.todo}}</span>
       <span v-if="a.done">Done</span>
       <span class="close" v-on:click.stop="deleteTodo(index)">&#x00D7;</span>
     </li>
@@ -9,21 +9,13 @@
 </template>
 
 <script>
-  import eventBus from "./EventBus";
+  import Constant from '../constants'
 
   export default {
     name: "List",
-    created() {
-      eventBus.$on('add-todo', this.addTodo)
-    },
-    data: function() {
-      return {
-        todolist: [
-          {todo: 'Watching Movie', done: false},
-          {todo: 'Walking', done: true},
-          {todo: 'Studying', done: false},
-          {todo: 'Baseball', done: false},
-        ]
+    computed: {
+      todolist() {
+        return this.$store.state.todolist
       }
     },
     methods: {
@@ -38,16 +30,11 @@
           }
         }
       },
-      addTodo: function(todo) {
-        if (todo !== '') {
-          this.todolist.push({todo: todo, done: false})
-        }
-      },
       doneToggle: function(index) {
-        this.todolist[index].done = !this.todolist[index].done
+        this.$store.commit(Constant.DONE_TOGGLE, {index: index})
       },
       deleteTodo: function(index) {
-        this.todolist.splice(index, 1)
+        this.$store.commit(Constant.DELETE_TODO, {index: index})
       }
     }
   }
