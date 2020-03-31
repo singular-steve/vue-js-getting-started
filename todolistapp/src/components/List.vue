@@ -10,23 +10,23 @@
 
 <script>
   import Constant from '../constants'
-  import {mapState, mapMutations} from 'vuex'
-  import _ from 'lodash'
+  import {mapState} from 'vuex'
 
   export default {
     name: "List",
     computed: mapState(['todolist']),
-    methods: _.extend({
-        checked(done) {
-          if(done) return {checked: true}
-          else return {checked: false}
-        }
+    methods: {
+      checked(done) {
+        if (done) return {checked: true}
+        else return {checked: false}
       },
-      mapMutations([
-        Constant.DONE_TOGGLE,
-        Constant.DELETE_TODO
-      ]),
-    )
+      deleteTodo(payload) {
+        this.$store.dispatch(Constant.DELETE_TODO, payload)
+      },
+      doneToggle(payload) {
+        this.$store.dispatch(Constant.DONE_TOGGLE, payload)
+      }
+    }
   }
 </script>
 
@@ -34,10 +34,12 @@
   * {
     box-sizing: border-box;
   }
+
   ul {
     margin: 0;
     padding: 0;
   }
+
   ul li {
     cursor: pointer;
     position: relative;
@@ -47,14 +49,17 @@
     transition: 0.2s;
     user-select: none;
   }
+
   ul li:hover {
     background: #ddd;
   }
+
   ul li.checked {
     background: #bbb;
     color: #fff;
     text-decoration: line-through;
   }
+
   ul li.checked::before {
     content: '';
     position: absolute;
@@ -67,12 +72,14 @@
     height: 8px;
     width: 8px;
   }
+
   .close {
     position: absolute;
     right: 0;
     top: 0;
     padding: 8px 12px 8px 12px;
   }
+
   .close:hover {
     background-color: #f44336;
     color: white;
