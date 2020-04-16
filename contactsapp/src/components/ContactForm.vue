@@ -28,58 +28,42 @@
 </template>
 
 <script>
-  import eventBus from "../eventBus";
+  import constants from '../constants';
+  import {mapState} from 'vuex';
+  import _ from 'lodash';
 
   export default {
     name: "ContactForm",
-    props: {
-      mode: {
-        type: String,
-        default: 'add'
-      },
-      contact: {
-        type: Object,
-        default: function() {
-          return {
-            no: '',
-            name: '',
-            tel: '',
-            address: '',
-            photo: ''
-          }
-        }
-      }
-    },
     mounted() {
       this.$refs.name.focus()
     },
-    computed: {
-      btnText() {
+    computed: _.extend({
+      btnText: function() {
         if (this.mode !== 'update') {
           return 'Add'
         } else {
           return 'Edit'
         }
       },
-      headingText() {
+      headingText: function() {
         if (this.mode !== 'update') {
           return 'Add a new contact'
         } else {
           return 'Edit a contact'
         }
       }
-    },
+    }, mapState(['mode', 'contact'])),
     methods: {
       submitEvent() {
         if (this.mode === 'update') {
-          eventBus.$emit('updateSubmit', this.contact)
+          this.$store.dispatch(constants.UPDATE_CONTACT);
         } else {
-          eventBus.$emit('addSubmit', this.contact)
+          this.$store.dispatch(constants.ADD_CONTACT);
         }
       },
       cancelEvent() {
-        eventBus.$emit('cancel')
-      }
+        this.$store.dispatch(constants.CANCEL_FORM);
+      },
     }
   }
 </script>

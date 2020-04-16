@@ -30,23 +30,26 @@
 </template>
 
 <script>
-  import eventBus from "../eventBus";
+  import {mapState} from 'vuex';
+  import constants from '../constants';
+
   export default {
     name: "ContactList",
-    props: ['contactlist'],
+    computed: mapState(['contactlist']),
     methods: {
       addContact: function() {
-        eventBus.$emit('addContactForm')
+        this.$store.dispatch(constants.ADD_CONTACT_FORM);
       },
       editContact: function(no) {
-        eventBus.$emit('editContactForm', no)
+        this.$store.dispatch(constants.EDIT_CONTACT_FORM, {no: no});
       },
       deleteContact: function(no) {
-        if(confirm('Want to delete?') === true)
-        eventBus.$emit('deleteContactForm', no)
+        if (confirm('Want to delete?')) {
+          this.$store.dispatch(constants.DELETE_CONTACT, {no: no});
+        }
       },
       editPhoto: function(no) {
-        eventBus.$emit('editPhoto', no)
+        this.$store.dispatch(constants.EDIT_PHOTO_FORM, {no: no});
       }
     }
   }

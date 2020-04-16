@@ -9,7 +9,7 @@
           <img class="thumb" :src="contact.photo"/>
         </div>
         <div>
-          <labe>Select a photo file</labe>
+          <label>Select a photo file</label>
           <label>
             <input ref="photofiel" type="file" name="photo" class="long btn btn-default"/>
           </label>
