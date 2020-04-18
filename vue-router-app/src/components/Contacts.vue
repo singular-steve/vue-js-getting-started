@@ -3,9 +3,10 @@
     <h1>Contacts</h1>
     <div class="wrapper">
       <div class="box" v-for="contact in contacts" :key="contact.no">
-        <router-link v-bind:to="`/contacts/${contact.no}`">{{contact.name}}</router-link>
+        <router-link v-bind:to="{ name: 'ContactItem', params: { no: contact.no }}">{{contact.name}}</router-link>
       </div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 

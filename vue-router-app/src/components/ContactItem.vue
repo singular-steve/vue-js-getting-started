@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Contact</h1>
+    <hr class="divider"/>
     <div>
       <table class="detail table table-bordered">
         <tbody>
@@ -39,6 +39,11 @@
     created() {
       this.no = this.$route.params.no;
     },
+    watch: {
+      '$route': function(to, from) {
+        this.no = to.params.no;
+      },
+    },
     computed: {
       contact() {
         const no = this.no;
@@ -51,5 +56,15 @@
 </script>
 
 <style scoped>
-
+  table.detail {
+    width: 400px;
+  }
+  .divider {
+    height: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ff0066;
+    color: #ff0066;
+    border: 0 none;
+  }
 </style>
