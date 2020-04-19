@@ -30,19 +30,13 @@
   import contactList from "../contactList";
   export default {
     name: "ContactItem",
+    props: [
+      'no',
+    ],
     data() {
       return {
-        no: 0,
         contacts: contactList,
       }
-    },
-    created() {
-      this.no = this.$route.params.no;
-    },
-    beforeRouteUpdate(to, from, next) {
-      console.log('#### beforeRouteUpdate ####');
-      this.no = to.params.no;
-      next();
     },
     watch: {
       '$route': function(to, from) {

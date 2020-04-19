@@ -33,7 +33,7 @@ const router = new VueRouter({
     {path: '/contacts', name: 'Contacts', component: Contacts,
       children: [
         {
-          path: ':no', name: 'ContactItem', component: ContactItem,
+          path: ':no', name: 'ContactItem', component: ContactItem, props: true,
           beforeEnter: (to, from, next) => {
             console.log('#### beforeEnter ####');
             console.log(`from : ${from.path} ---> to: ${to.path}`);
