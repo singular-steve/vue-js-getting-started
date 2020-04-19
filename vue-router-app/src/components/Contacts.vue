@@ -3,7 +3,8 @@
     <h1>Contacts</h1>
     <div class="wrapper">
       <div class="box" v-for="contact in contacts" :key="contact.no">
-        <router-link v-bind:to="{ name: 'ContactItem', params: { no: contact.no }}">{{contact.name}}</router-link>
+<!--        <router-link v-bind:to="{ name: 'ContactItem', params: { no: contact.no }}">{{contact.name}}</router-link>-->
+        <span @click="navigate(contact.no)" style="cursor:pointer">[ {{contact.name}} ]</span>
       </div>
     </div>
     <router-view></router-view>
@@ -17,6 +18,15 @@ export default {
   data() {
     return {
       contacts: contactList,
+    }
+  },
+  methods: {
+    navigate(no) {
+      if (confirm('Proceed to Detail?')) {
+        this.$router.push({ name: 'ContactItem', params: {no}}, () => {
+          console.log(`move to /contacts/${no}`);
+        })
+      }
     }
   }
 }
