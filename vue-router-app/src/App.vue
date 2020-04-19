@@ -22,8 +22,10 @@ import About from './components/About';
 import Contacts from './components/Contacts';
 import ContactItem from './components/ContactItem';
 import VueRouter from 'vue-router';
+import NotFound from './components/NotFound';
 
 const router = new VueRouter({
+  mode: 'history',
   routes: [
     {path: '/', component: Home},
     {path: '/home', name: 'Home', component: Home},
@@ -45,6 +47,7 @@ const router = new VueRouter({
         },
       ]
     },
+    {path: '*', component: NotFound},
   ],
 });
 
