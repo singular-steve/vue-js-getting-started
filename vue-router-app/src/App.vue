@@ -30,7 +30,19 @@ const router = new VueRouter({
     {path: '/about', name: 'About', component: About},
     {path: '/contacts', name: 'Contacts', component: Contacts,
       children: [
-        {path: ':no', name: 'ContactItem', component: ContactItem},
+        {
+          path: ':no', name: 'ContactItem', component: ContactItem,
+          beforeEnter: (to, from, next) => {
+            console.log('#### beforeEnter ####');
+            console.log(`from : ${from.path} ---> to: ${to.path}`);
+            // 인증, 권한 처리 지점
+            if (from.path.startsWith('/contacts')) {
+              next();
+            } else {
+              next('/home');
+            }
+          },
+        },
       ]
     },
   ],

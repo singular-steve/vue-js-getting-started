@@ -39,6 +39,11 @@
     created() {
       this.no = this.$route.params.no;
     },
+    beforeRouteUpdate(to, from, next) {
+      console.log('#### beforeRouteUpdate ####');
+      this.no = to.params.no;
+      next();
+    },
     watch: {
       '$route': function(to, from) {
         this.no = to.params.no;
