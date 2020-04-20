@@ -11,11 +11,14 @@ export default {
       pageno = payload.pageno;
     }
     const pagesize = store.state.contactlist.pagesize;
-
+    store.dispatch(constants.CHANGE_IS_LOADING, { isLoading: true });
     contactAPI.fetchContacts(pageno, pagesize)
       .then(res => {
+        store.dispatch(constants.CHANGE_IS_LOADING, { isLoading: false });
         store.commit(constants.FETCH_CONTACTS, {contactlist: res.data});
-      })
+      }).catch(() => {
+      store.dispatch(constants.CHANGE_IS_LOADING, { isLoading: false });
+    })
   },
   [constants.ADD_CONTACT]: (store) => {
     contactAPI.addContact(store.state.contact)
@@ -60,5 +63,8 @@ export default {
   },
   [constants.INITIALIZE_CONTACT_ONE]: (store) => {
     store.commit(constants.INITIALIZE_CONTACT_ONE);
+  },
+  [constants.CHANGE_IS_LOADING]: (store, payload) => {
+    store.commit(constants.CHANGE_IS_LOADING, payload);
   },
 }

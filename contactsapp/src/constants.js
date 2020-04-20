@@ -6,4 +6,5 @@ export default {
   DELETE_CONTACT: 'deleteContact',
   FETCH_CONTACT_ONE: 'fetchContactOne',
   INITIALIZE_CONTACT_ONE: 'initializeContactOne',
-}
+  CHANGE_IS_LOADING: 'changeIsLoading',
+};
