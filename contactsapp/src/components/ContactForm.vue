@@ -28,44 +28,54 @@
 </template>
 
 <script>
-  import constants from '../constants';
-  import {mapState} from 'vuex';
-  import _ from 'lodash';
+import constants from '../constants';
+import {mapState} from 'vuex';
+import _ from 'lodash';
 
-  export default {
-    name: "ContactForm",
-    mounted() {
-      this.$refs.name.focus()
-    },
-    computed: _.extend({
-      btnText: function() {
-        if (this.mode !== 'update') {
-          return 'Add'
-        } else {
-          return 'Edit'
-        }
-      },
-      headingText: function() {
-        if (this.mode !== 'update') {
-          return 'Add a new contact'
-        } else {
-          return 'Edit a contact'
-        }
-      }
-    }, mapState(['mode', 'contact'])),
-    methods: {
-      submitEvent() {
-        if (this.mode === 'update') {
-          this.$store.dispatch(constants.UPDATE_CONTACT);
-        } else {
-          this.$store.dispatch(constants.ADD_CONTACT);
-        }
-      },
-      cancelEvent() {
-        this.$store.dispatch(constants.CANCEL_FORM);
-      },
+export default {
+  name: "ContactForm",
+  data() {
+    return {
+      mode: 'add',
     }
+  },
+  props: [
+    'no'
+  ],
+  computed: _.extend({
+    btnText: function() {
+      return this.mode !== 'update' ? 'Add' : 'Edit';
+    },
+    headingText: function() {
+      return this.mode !== 'update' ? 'Add a new contact' : 'Edit a contact';
+    }
+  }, mapState(['contactlist', 'contact'])),
+  mounted() {
+    this.$refs.name.focus();
+    const currentRoute = this.$router.currentRoute;
+    if (currentRoute.fullPath.includes('/add')) {
+      this.mode = 'add';
+      this.$store.dispatch(constants.INITIALIZE_CONTACT_ONE);
+    } else {
+      this.mode = 'update';
+      this.$store.dispatch(constants.FETCH_CONTACT_ONE, { no: this.no });
+    }
+  },
+  methods: {
+    submitEvent() {
+      if (this.mode === 'update') {
+        this.$store.dispatch(constants.UPDATE_CONTACT);
+        this.$router.push({ name: 'ContactList', query: { page: this.contactlist.pageno }});
+      } else {
+        this.$store.dispatch(constants.ADD_CONTACT);
+        this.$router.push({ name: 'ContactList', query: { page: 1 }});
+      }
+    },
+    cancelEvent() {
+      this.$router.push({ name: 'ContactList', query: { page: this.contactlist.pageno }});
+    },
   }
+}
 </script>
 
 <style scoped>

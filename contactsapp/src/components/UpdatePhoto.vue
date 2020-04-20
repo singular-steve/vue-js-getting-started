@@ -25,21 +25,30 @@
 </template>
 
 <script>
-  import eventBus from "../eventBus";
+import constants from '../constants';
+import { mapState } from 'vuex';
 
-  export default {
-    name: "UpdatePhoto",
-    props: ['contact'],
-    methods: {
-      cancelEvent() {
-        eventBus.$emit('cancel')
-      },
-      photoSubmit() {
-        const file = this.$refs.photofile.files[0]
-        eventBus.$emit('updatePhoto', this.contact.no, file)
-      }
-    }
-  }
+export default {
+  name: 'updatePhoto',
+  props: [
+    'no',
+  ],
+  computed: mapState(['contact', 'contactlist'])
+  ,
+  mounted() {
+    this.$store.dispatch(constants.FETCH_CONTACT_ONE, { no: this.no });
+  },
+  methods: {
+    cancelEvent() {
+      this.$router.push({ name: 'ContactList', query: { page: this.contactlist.pageno }});
+    },
+    photoSubmit() {
+      const file = this.$refs.photofile.files[0];
+      this.$store.dispatch(constants.UPDATE_PHOTO, { no: this.contact.no, file: file });
+      this.$router.push({ name: 'ContactList', query: { page: this.contactlist.pageno }});
+    },
+  },
+}
 </script>
 
 <style scoped>
